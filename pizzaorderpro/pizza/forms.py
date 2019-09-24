@@ -1,11 +1,26 @@
 from django import forms
+from .models import Pizza
+from .models import Size
+
+# class PizzaForm(forms.Form):
+#     toppings1 = forms.CharField(label="Toppings1", max_length=100)
+#     toppings2 = forms.CharField(label="Toppings2", max_length=100)
+#     size = forms.ChoiceField(
+#         label="Size",
+#         choices=[("Small", "Small"), ("Medium", "Medium"), ("Large", "Large")],
+#     )
+class MultiplePizzaForm(forms.Form):
+    number = forms.IntegerField(min_value=2, max_value=6)
 
 
-class PizzaForm(forms.Form):
-    toppings1 = forms.CharField(label="Toppings1", max_length=100)
-    toppings2 = forms.CharField(label="Toppings2", max_length=100)
-    size = forms.ChoiceField(
-        label="Size",
-        choices=[("Small", "Small"), ("Medium", "Medium"), ("Large", "Large")],
-    )
+class PizzaForm(forms.ModelForm):
+    # image = forms.ImageField()
+    # size = forms.ModelChoiceField(
+    #     queryset=Size.objects, empty_label=None, widget=forms.RadioSelect
+    # )
+
+    class Meta:
+        model = Pizza
+        fields = ["toppings1", "toppings2", "size"]
+        labels = {"toppings1": "Topping 1", "toppings2": "Topping 2", "size": "Size"}
 

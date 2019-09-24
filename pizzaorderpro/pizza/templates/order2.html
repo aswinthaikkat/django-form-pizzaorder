@@ -1,9 +1,45 @@
-<h1>ORDER A PIZZA</h1>
-<h2>{{note}}</h2>
-<form action="{% url "order"%}" method="post">
-    {% csrf_token %}
-    {{pizzaform}}
+{% extends 'base.html' %}
+{% block 'body' %}
+{% load widget_tweaks %}
+<div class="container">
 
-    <button type="submit">Order</button>
+    <h1>ORDER A PIZZA</h1>
+    <h2>{{note}}</h2>
+    {% if pizza_pk %}
+    <a href="{% url "edit_order" pizza_pk %}">Edit Your Order</a>
+    {% endif %}
+    <form enctype="multipart/form-data" action="{% url "order"%}" method="post">
+        {% csrf_token %}
 
-</form>
+        {% for form in pizzaform %}
+        <div>
+            {{form.errors}}
+            {{form.label_tag}}
+            {% render_field form class="form-control" %}
+        </div>
+        {% endfor %}
+
+
+
+
+        <button type="submit">Order</button>
+
+    </form>
+    <br><br>
+
+    <h3>Want More than One Pizza?</h3>
+
+    <form action="{% url "pizzas" %}" method="GET">
+
+        {{ multiple_form }}
+
+
+        <button type="submit">Order</button>
+
+    </form>
+
+</div>
+{% endblock %}
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
